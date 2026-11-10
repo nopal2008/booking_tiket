@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CheckinController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicController;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,8 @@ Route::get('/packages', [PublicController::class, 'packages'])->name('packages.i
 Route::get('/packages/{slug}/book', [PublicController::class, 'booking'])->name('packages.book');
 Route::post('/booking', [PublicController::class, 'storeBooking'])->name('booking.store');
 Route::get('/status', [PublicController::class, 'status'])->name('booking.status');
+Route::get('/payment/{code}', [PaymentController::class, 'show'])->name('payment.show');
+Route::post('/payment/{code}/simulate', [PaymentController::class, 'simulate'])->name('payment.simulate');
 
 Route::get('/voucher/{code}', function (string $code) {
     $booking = Booking::with(['slot.package', 'items'])->where('booking_code', $code)->firstOrFail();
